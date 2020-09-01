@@ -4,14 +4,24 @@ import VideoPlayer from './VideoPlayer.js';
 class App extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      // clicked
+      clicked: undefined
+      // unclicked: false
       // 1. video state, 2. video list state
     };
+
+  }
+
+  onListItemClick(objectthatwasclicked) {
+    this.setState({
+      clicked: objectthatwasclicked
+    });
   }
 
   render() {
+    // var style = {
+    //   textDecoration: this.state.done ? 'line-through' : 'none'
+    // };
 
     return (
       <div>
@@ -22,10 +32,11 @@ class App extends React.Component {
         </nav>
         <div className="row">
           <div className="col-md-7">
-            <div><h5><em>videoPlayer</em> <VideoPlayer video = {exampleVideoData[0]}/> </h5></div>
+            <div><h5><em>videoPlayer</em> <VideoPlayer
+              video = {this.state.clicked ? this.state.clicked : exampleVideoData[0]}/> </h5></div>
           </div>
           <div className="col-md-5">
-            <div><h5><em>videoList</em> <VideoList videos = {exampleVideoData}/> </h5></div>
+            <div><h5><em>videoList</em> <VideoList videos = {exampleVideoData} onTitleClick = {this.onListItemClick.bind(this)}/> </h5></div>
           </div>
         </div>
       </div>
