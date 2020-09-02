@@ -5,17 +5,32 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      clicked: undefined
+      clicked: undefined,
+      videos: exampleVideoData
       // unclicked: false
       // 1. video state, 2. video list state
     };
-
   }
 
   onListItemClick(objectthatwasclicked) {
     this.setState({
-      clicked: objectthatwasclicked
+      clicked: objectthatwasclicked,
     });
+  }
+
+  getVideos(query) {
+    var obj = {
+      key: this.props.API_KEY,
+      query: query,
+    };
+
+    this.props.searchYouTube(obj, (videos) => {
+      this.setState({
+        clicked: videos[0],
+        videos: videos
+      });
+    });
+
   }
 
   render() {
@@ -33,10 +48,10 @@ class App extends React.Component {
         <div className="row">
           <div className="col-md-7">
             <div><h5><em>videoPlayer</em> <VideoPlayer
-              video = {this.state.clicked ? this.state.clicked : exampleVideoData[0]}/> </h5></div>
+              video = {this.state.clicked || exampleVideoData[0]}/> </h5></div>
           </div>
           <div className="col-md-5">
-            <div><h5><em>videoList</em> <VideoList videos = {exampleVideoData} onTitleClick = {this.onListItemClick.bind(this)}/> </h5></div>
+            <div><h5><em>videoList</em> <VideoList videos = {this.state.videos} onTitleClick = {this.onListItemClick.bind(this)}/> </h5></div>
           </div>
         </div>
       </div>
