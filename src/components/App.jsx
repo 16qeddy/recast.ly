@@ -1,6 +1,7 @@
 import exampleVideoData from '../data/exampleVideoData.js';
 import VideoList from './VideoList.js';
 import VideoPlayer from './VideoPlayer.js';
+import Search from './Search.js';
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -18,19 +19,22 @@ class App extends React.Component {
     });
   }
 
+  componentDidMount() {
+    this.getVideos('simple plan');
+  }
+
   getVideos(query) {
-    var obj = {
+    var options = {
       key: this.props.API_KEY,
       query: query,
     };
 
-    this.props.searchYouTube(obj, (videos) => {
+    this.props.searchYouTube(options, (videos) => {
       this.setState({
         clicked: videos[0],
         videos: videos
       });
     });
-
   }
 
   render() {
@@ -42,7 +46,7 @@ class App extends React.Component {
       <div>
         <nav className="navbar">
           <div className="col-md-6 offset-md-3">
-            <div><h5><em>search</em> view goes here</h5></div>
+            <div><h5><em>search</em><Search whenChange ={this.getVideos.bind(this)}/></h5></div>
           </div>
         </nav>
         <div className="row">
